@@ -9,7 +9,7 @@ def main(argv):
     # Default File Names
     inputFile = 'apis.txt'
     outputFile = 'output.json'
-    jsonFile = 'AdvancedMD.Testing.AdvancedMD.Testing.API.Postman.HealthChecks.postman_collection.json'
+    jsonFile = 'postman_collection.json'
 
     # Help Message in case something gets messed up, or if they request help messages.
     helpOut = """
