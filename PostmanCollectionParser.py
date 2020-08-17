@@ -6,10 +6,12 @@
 import sys, getopt, json
 
 def main(argv):
+    # Default File Names
     inputFile = 'apis.txt'
     outputFile = 'output.json'
     jsonFile = 'AdvancedMD.Testing.AdvancedMD.Testing.API.Postman.HealthChecks.postman_collection.json'
 
+    # Help Message in case something gets messed up, or if they request help messages.
     helpOut = """
     Postman Collection Parser takes a Postman collection JSON and returns a collection JSON with only the tests specified in
     a text file input.
@@ -18,6 +20,8 @@ def main(argv):
         -j  --json <Postman Collection JSON>
         -o  --ofile <outputfile>
     """
+
+    #Gets the values of each Command Line argument
     try:
         opts, args = getopt.getopt(argv, "hj:o:i:", ["ifile=","ofile=","json="])
     except getopt.GetoptError:
@@ -34,16 +38,16 @@ def main(argv):
         elif opt in ('-o', '--ofile'):
             outputFile = arg
     
+    # Gets the data from those files
     inFile = open(inputFile)
     inJSON = open(jsonFile)
     jsonData = json.loads(inJSON.read())
     inFileList = inFile.read().split("\n")
     nameList = jsonData["item"]
     output = {}
+
+    # Gets the header information
     output["info"] = jsonData["info"]
-    output["event"] = jsonData["event"]
-    output["variable"] = jsonData["variable"]
-    output["protocolProfileBehavior"] = jsonData["protocolProfileBehavior"]
     output["item"] = []
 
     for file in inFileList:
@@ -51,6 +55,12 @@ def main(argv):
             if(file == nameList[i]["name"]):
                 output["item"].append(nameList[i])
 
+    # Gets the footer information
+    output["event"] = jsonData["event"]
+    output["variable"] = jsonData["variable"]
+    output["protocolProfileBehavior"] = jsonData["protocolProfileBehavior"]
+
+    # Writes the data out to the output file
     outputFileData = json.dumps(output)
     outputFileWriter = open(outputFile, "w")
     outputFileWriter.write(outputFileData)
